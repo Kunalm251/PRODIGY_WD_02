@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stopwatch</title>
+    
+</head>
+<style>
+    body{
+        background-image: url(download.jpeg);
+        background-size: cover;
+        flex-direction: column;
+        justify-content: center;
+        height: 100vh;
+        width: 100%;
+        background-repeat: no-repeat;
+        color:black;
+        display: flex;
+        
+    }
+    
+    .frame{
+    
+        position: fixed;
+        display: flex;
+        flex-direction: row;
+        align-items:end;
+        opacity: 0.6;
+        margin-right: 30px;
+        justify-content: center;
+        border: 2px solid black;
+        background-color: antiquewhite;
+        border-radius: 30px;
+    
+    }
+    
+    .controls button{
+        font-weight: 300;
+        width: 110px;
+        border-radius: 65px;
+        border: 3px solid black;
+        display: flex;
+        flex-direction: row;
+        margin: 8px;
+        padding-left:  18px;
+        font-size: 14px;
+        
+    }
+    
+    .controls button:hover{
+        background-color: #000000;
+        color: white;
+        
+        
+    }
+    
+    .stopwatch{
+        font-size: 160px;
+        font-family: 'Times New Roman', Times, serif;
+        margin-top: 17px;
+        margin-left: 30px;
+        
+    }
+    
+    .laps{
+        color: black;
+        font-size: 20px;
+        font-weight: 400;
+        position: relative;
+        top: 187px;
+        left: 150px;
+        width: 200px;
+        overflow: auto; 
+        max-height: 150px;
+    }
+    
+    ul{
+        margin: 0;
+        padding: 0;
+    }
+    
+    ul li{
+        list-style: none;
+        padding: 10px 0;
+    }
+</style>
+
+<body>
+
+    <div class="frame">
+        <div class="controls">
+            <button onclick="start()">Start</button>
+            <button onclick="stop()">Stop</button>
+            <button onclick="pause()">Pause</button>
+            <button onclick="lap()">Lap</button>
+            <button onclick="resetLaps()">Reset Laps</button>
+            <button onclick="restart()">Restart</button>
+        </div>
+
+        <div class="stopwatch">00:00:00</div>
+    </div>
+    <ul class="laps">
+
+    </ul>
+
+
+    <script>
+        var ms = 0, s = 0, m = 0;
+var timer;
+
+var stopwtchEl = document.querySelector(".stopwatch");
+var lapsContainer = document.querySelector(".laps");
+
+function start(){
+    if(!timer){
+        timer = setInterval(run, 10);
+    }
+    
+}
+
+function run(){
+    stopwtchEl.textContent = (m < 10 ? "0"+m : m) + ":" + (s < 10 ? "0"+s : s) + ":" + (ms < 10 ? "0"+ms : ms);
+    ms++;
+    if(ms == 100){
+        ms = 0;
+        s++;
+    }
+    if(s == 60){
+        s = 0;
+        m++;
+    }
+}
+function stop(){
+    clearInterval(timer);
+    timer = false;
+    ms = 0;
+    s = 0;
+    m = 0;
+    stopwtchEl.textContent = (m < 10 ? "0"+m : m) + ":" + (s < 10 ? "0"+s : s) + ":" + (ms < 10 ? "0"+ms : ms);
+}
+
+
+function pause(){
+    clearInterval(timer);
+    timer = false;
+}
+
+function lap(){
+    if(timer){
+        var li = document.createElement("li");
+        li.innerText =  (m < 10 ? "0"+m : m) + ":" + (s < 10 ? "0"+s : s) + ":" + (ms < 10 ? "0"+ms : ms);
+        lapsContainer.appendChild(li);
+    }
+}
+
+function resetLaps(){
+    lapsContainer.innerHTML = "";
+}
+function restart(){
+    stop();
+    start();
+}
+    </script>
+</body>
+
+</html>
